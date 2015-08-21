@@ -6,6 +6,10 @@ Version 1.3.7
 
 See README.md or https://github.com/fraywing/textAngular/wiki for requirements and use.
 */
+ #htmlcontent p
+{
+	text-indent: 2.25em;
+}
 
 .ta-hidden-input {
 	width: 1px;
