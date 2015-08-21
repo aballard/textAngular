@@ -34,20 +34,64 @@
 <body>
     <div ng-app="textAngularTest" ng-controller="wysiwygeditor" class="container app">
         <h1>Editor</h1>       
-        <div id="htmlcontent" text-angular="text-angular" name="htmlcontent" ng-model="htmlcontent" ta-disabled='disabled'></div>       
-    </div>
-
-    <p>
-        this is not editerd
+        <div id="htmlcontent" text-angular="text-angular" name="htmlcontent" data-ng-model="htmlcontent" ta-disabled='disabled' data-ng-mouseup="getSelectionText()"></div>       
+  
+   <h2>Tags</h2>
+    <p>Add Tag 
+        <input  type="text" data-ng-model ="newTagName">
+        <button data-ng-repeat="tagGroup in data.tags" data-ng-click="addTag(tagGroup.name)">{{tagGroup.name}}</button>         
     </p>
- 
+    
+   <div data-ng-repeat="tagGroup in data.tags">
+    <h3>{{tagGroup.name}}</h3>
+    <div data-ng-repeat="tag in tagGroup.data">{{tag}}</div>
+   </div>
+   
+</div>
+
+  
      
 
     <script type="text/javascript">
     angular.module("textAngularTest", ['textAngular'])
         .controller('wysiwygeditor', function wysiwygeditor($scope) {
             $scope.htmlContent = "";
-                        $scope.disabled = false;
+            $scope.disabled = false;
+            $scope.newTagName= "";
+            $scope.data =
+            {
+                tags : [
+                           {
+                             name: "Characters",
+                             data: ['Dawn Marie','Laura']
+                           }                           
+                       ]                
+            };
+
+            $scope.addTag = function(tagGroup) {
+
+                angular.forEach($scope.data.tags, function(value,key)
+                {
+                if(value.name === tagGroup)
+                {
+                    if(value.data.indexOf($scope.newTagName) == -1)
+                    {
+                       value.data.push($scope.newTagName);
+                    }
+                }
+            });
+
+            }
+
+            $scope.getSelectionText = function() {
+                var text = "";
+                if (window.getSelection) {
+                    text = window.getSelection().toString();
+                } else if (document.selection && document.selection.type != "Control") {
+                    text = document.selection.createRange().text;
+                }
+                $scope.newTagName = text;
+            };
         });
     </script>
 </body>

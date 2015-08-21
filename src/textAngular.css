@@ -11,6 +11,13 @@ See README.md or https://github.com/fraywing/textAngular/wiki for requirements a
 	text-indent: 2.25em;
 }
 
+.tag-highlight
+{
+	background-color: #bbcccc;
+    padding: .05em .25em;
+    color: #af1e2c;
+}
+
 .ta-hidden-input {
 	width: 1px;
 	height: 1px;
