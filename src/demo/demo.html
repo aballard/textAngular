@@ -34,7 +34,7 @@
 <body>
     <div ng-app="textAngularTest" ng-controller="wysiwygeditor" class="container app">
         <h1>Editor</h1>       
-        <div id="htmlcontent" text-angular="text-angular" name="htmlcontent" data-ng-model="htmlcontent" ta-disabled='disabled' data-ng-mouseup="getSelectionText()"></div>       
+        <div id="htmlcontent" text-angular="text-angular" name="htmlcontent" data-ng-model="htmlContent" ta-disabled='disabled' data-ng-mouseup="getSelectionText()" ></div>       
   
    <h2>Tags</h2>
     <p>Add Tag 
@@ -55,7 +55,7 @@
     <script type="text/javascript">
     angular.module("textAngularTest", ['textAngular'])
         .controller('wysiwygeditor', function wysiwygeditor($scope) {
-            $scope.htmlContent = "";
+            $scope.htmlContent = "This is my first time being awake at dawn Laura smiled";
             $scope.disabled = false;
             $scope.newTagName= "";
             $scope.data =
@@ -68,15 +68,32 @@
                        ]                
             };
 
+
+            $scope.markTags = function ()
+            {
+                angular.forEach($scope.data.tags, function(value,key)
+                {
+                    angular.forEach(value.data, function(tagValue, tagkey)
+                    {   
+                        if($scope.htmlContent.indexOf(tagValue) > -1)
+                        {
+                            $scope.htmlContent = $scope.htmlContent.replace(tagValue,'<span class="tag-highlight">'+ tagValue + '</span>');
+                           //$scope.htmlContent = $scope.htmlContent.replace(tagValue,"shoe");
+                        }
+                    });
+                });
+            }
+
             $scope.addTag = function(tagGroup) {
 
                 angular.forEach($scope.data.tags, function(value,key)
                 {
                 if(value.name === tagGroup)
                 {
-                    if(value.data.indexOf($scope.newTagName) == -1)
+                    if(value.data.indexOf($scope.newTagName) === -1)
                     {
                        value.data.push($scope.newTagName);
+                       $scope.markTags();
                     }
                 }
             });
@@ -92,6 +109,8 @@
                 }
                 $scope.newTagName = text;
             };
+
+            $scope.markTags();
         });
     </script>
 </body>
