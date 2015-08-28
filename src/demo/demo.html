@@ -90,9 +90,9 @@
                 {
                 if(value.name === tagGroup)
                 {
-                    if(value.data.indexOf($scope.newTagName) === -1)
+                    if(value.data.indexOf($scope.newTagName.trim()) === -1)
                     {
-                       value.data.push($scope.newTagName);
+                       value.data.push($scope.newTagName.trim());
                        $scope.markTags();
                     }
                 }
